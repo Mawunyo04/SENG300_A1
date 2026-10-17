@@ -40,8 +40,12 @@ SENG300_A1/
         │   ├── ReceiptText.java            
         │   ├── AppReceiptSender.java       
         │   └── EmailReceiptSender.java 
-        
-             
+        ├── pricing/                  
+        │   ├── CasualPricing.java       
+        │   ├── MemberPricing.java       
+        │   ├── PricingStrategy.java       
+        │   ├── StudenPricing.java       
+        │   ├── TimeBasedPricing.java       
         ├── (ADD UR PACKAGE STRUCTURES HERE)                 
         ├── 
         ├── 
