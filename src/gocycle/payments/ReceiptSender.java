@@ -1,5 +1,5 @@
 package gocycle.payments;
-import gocycle.trips.Trips;
+import gocycle.trips.Trip;
 
 public interface ReceiptSender {
     /**
