@@ -10,10 +10,12 @@ final class ReceiptText {
 
     private ReceiptText() {
     }
+    //builds receipt text for each trip
     static String build(Trip trip){
         if (trip ==null) {
             throw new IllegalArgumentException("trip must not be null");
         }
+        //once the trip has ended and been priced
         if (trip.getFare()==null){
             throw new IllegalStateException("Cannot send a receipt: trip "+trip.getId() +" has no fare yet");
         }

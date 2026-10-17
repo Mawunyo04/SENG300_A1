@@ -7,6 +7,7 @@ public class EmailReceiptSender implements ReceiptSender {
 
     @Override
     public void send(Trip trip){
+        //build the text first so a trip with no fare is rejected
         String text=ReceiptText.build(trip);
         String email= trip.getRider().getEmail();
         if (email==null || email.isBlank()){
