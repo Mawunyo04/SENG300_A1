@@ -17,7 +17,7 @@ public interface PaymentGateway {
      * Stops a hold when the trip ends of fails to start.
      * @param holdId
      */
-    void stopHold(String holdId);
+    void releaseHold(String holdId);
 
     /**
      * Charges the final far
