@@ -1,4 +1,4 @@
-   .idea/
-   *.iml
-   out/
-   .DS_Store
+.idea/
+*.iml
+out/
+.DS_Store
