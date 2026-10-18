@@ -39,14 +39,24 @@ SENG300_A1/
         │   ├── ReceiptSender.java          
         │   ├── ReceiptText.java            
         │   ├── AppReceiptSender.java       
+
         │   └── EmailReceiptSender.java 
         
              
+        ├── faults/
+        │   ├── FaultType.java
+        │   ├── FaultSource.java
+        │   ├── FaultReport.java
+        │   ├── FaultObserver.java
+        │   ├── FaultService.java
+        │   ├── MaintenanceCrewNotifier.java
+        │   └── OperatorConsole.java
+
         ├── (ADD UR PACKAGE STRUCTURES HERE)                 
         ├── 
         ├── 
         ├── 
-        └── [Main.java]                
+        └── [Main.java]             
 ```
 
 
@@ -65,4 +75,5 @@ Each member works on a feature branch and merges into `main` through a pull requ
 Branches: 
 
     - feature/payments
+    - feature/faults
     - (ADD UR BRANCHES HERE) 
