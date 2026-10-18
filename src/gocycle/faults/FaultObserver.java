@@ -1,4 +1,5 @@
 package gocycle.faults;
 
-public class FaultObserver {
+public interface FaultObserver {
+    void onFault(FaultReport report);
 }
