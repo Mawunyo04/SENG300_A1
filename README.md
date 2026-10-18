@@ -40,14 +40,20 @@ SENG300_A1/
         │   ├── ReceiptText.java            
         │   ├── AppReceiptSender.java       
         │   └── EmailReceiptSender.java 
-        
-             
-        ├── (ADD UR PACKAGE STRUCTURES HERE)                 
-        ├── 
-        ├── 
-        ├── 
+        ├── pricing/                  
+        │   ├── CasualPricing.java       
+        │   ├── MemberPricing.java       
+        │   ├── PricingStrategy.java       
+        │   ├── StudenPricing.java       
+        │   ├── TimeBasedPricing.java
+        ├── stations/                  
+        │   ├── DockingPoint.java       
+        │   ├── Station.java       
+        │   ├── StationNetwork.java       
+        │   ├── StationScreen.java       
+        │   ├── Zone.java 
+        ├── (ADD UR PACKAGE STRUCTURES HERE)       
         └── [Main.java]                
-```
 
 
 ## Build and run
