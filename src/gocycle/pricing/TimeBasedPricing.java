@@ -2,6 +2,10 @@ package gocycle.pricing;
 
 import java.math.BigDecimal;
 
+/**
+* Calculates time-based trip fares using the per-minute rate
+* supplied by each pricing subclass
+*/
 public abstract class TimeBasedPricing implements PricingStrategy {
 
     /* Sample fees chosen for this implementation */    
@@ -36,5 +40,4 @@ public abstract class TimeBasedPricing implements PricingStrategy {
 
         return fee;
     }
-
 }
