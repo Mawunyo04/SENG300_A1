@@ -13,18 +13,27 @@ public abstract class Vehicle {
     public abstract boolean isRentable();
 
     public void startRental() {
-        // TODO: implement
+        // Can only start rental if the vehicle is rentable
+        if (isRentable()) {
+            this.status = VehicleStatus.IN_USE;
+        }
     }
 
     public void finishRental() {
-        // TODO: implement
+        // Can only finish rental if currently in use
+        if (this.status == VehicleStatus.IN_USE) {
+            this.status = VehicleStatus.AVAILABLE;
+        }
     }
 
     public void markOutOfService() {
-        // TODO: implement
+        this.status = VehicleStatus.OUT_OF_SERVICE;
     }
 
     public void restoreService() {
-        // TODO: implement
+        // Restore to AVAILABLE only if previously out of service
+        if (this.status == VehicleStatus.OUT_OF_SERVICE) {
+            this.status = VehicleStatus.AVAILABLE;
+        }
     }
 }
