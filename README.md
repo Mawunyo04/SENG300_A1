@@ -51,33 +51,54 @@ SENG300_A1/
         │   ├── Station.java       
         │   ├── StationNetwork.java       
         │   ├── StationScreen.java       
-        │   ├── Zone.java 
-        ├── (ADD UR PACKAGE STRUCTURES HERE)       
+        │   ├── Zone.java      
         ├── trips/                  
         │   ├── Rider.java       
         │   ├── Membership.java       
         │   ├── Trip.java             
-        ├── (ADD UR PACKAGE STRUCTURES HERE)                 
-        ├── 
-        ├── 
-        ├── 
-        └── [Main.java]                
+        ├── testing/              
+        │   ├── PaymentGatewayTest.java       
+        │   ├── PricingTest.java       
+        │   ├── ReceiptSenderTest.java
 
 
-## Build and run
+        └──(ADD UR PACKAGES HERE)
 
-(NEED TO DO)
+```
+## Requirements
+- Java 11 or newer (a JDK)
+- IntelliJ IDEA
 
+## Build
+From the project's top folder (macOS/Linux terminal):
 
+    javac -d out $(find src -name "*.java" -not -path "*/testing/*")
 
+No output means the code compiled. The compiled files go in the `out` folder.
 
-Or open the project in IntelliJ and run `[MainClassName]`.
+In IntelliJ (any operating system): Build > Build Project.
 
+## Run
+This project is a set of core classes (trips, pricing, payments, faults, etc.) and has
+no main program. The classes are exercised by the JUnit tests in `src/gocycle/testing`.
+
+1. Open any test file. If `org.junit` is red, hover over it and choose
+   "Add JUnit4 to classpath".
+2. Right-click `src/gocycle/testing` > Run 'Tests in gocycle.testing'.
+
+The payment classes print their actions (for example "[PAYMENT] Placed hold ...") in the
+IntelliJ console while the tests run.
 ## Git workflow
 Each member works on a feature branch and merges into `main` through a pull request .
 
 Branches: 
 
+    - main
     - feature/payments
     - feat_trips
-    - (ADD UR BRANCHES HERE) 
+    - chylsy-work
+    - feature/stations
+    - fix/gitignore-indentation
+    - sara's-work
+    (ADD UR BRANCHES HERE) 
+
