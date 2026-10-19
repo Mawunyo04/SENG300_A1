@@ -38,16 +38,13 @@ public class DockingPoint {
         //returns true only if vehicle is held and locked
 
         if (v == null){
-            System.out.println("Point " + id + ": there is no vehicle to dock.");
             return false;
         }
         if (!isFree()){
-            System.out.println("Point " + id + ": is occupied.");
             return false;
         }
         vehicle = v;
         locked = true;
-        System.out.println("Point " + id + ": " + v + " is docked and locked.");
         return true;
         
     }
@@ -58,13 +55,11 @@ public class DockingPoint {
         //return null if empty
 
         if (isFree()){
-            System.out.println("Point " + id + ": Empty");
             return null;
         }
         Vehicle released = vehicle;
         vehicle = null;
         locked = false;
-        System.out.println("Point " + id + ": " + released + " was released."); 
         return released;     
     }
 

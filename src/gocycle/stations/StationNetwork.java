@@ -47,7 +47,7 @@ public class StationNetwork {
        return nearest;
     }
 
-    //prints evey station
+    //prints every station
     public void printNetworkState() {
         System.out.println("--- NETWORK STATE ---");
         for (Station s : stations){
