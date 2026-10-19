@@ -106,6 +106,102 @@ public class VehicleTest {
 
     // Vehicle Tests
 
+    // Helper class to test the abstract Vehicle class
+    private static class TestVehicle extends Vehicle {
+
+        public TestVehicle(String id) {
+            super(id);
+        }
+
+        @Override
+        public boolean isRentable() {
+            return status == VehicleStatus.AVAILABLE;
+        }
+    }
+
+    @Test
+    public void vehicleStartsAsAvailable() {
+        Vehicle vehicle = new TestVehicle("v1");
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void startRentalChangesStatusToInUse() {
+        Vehicle vehicle = new TestVehicle("v2");
+
+        vehicle.startRental();
+
+        vehicle.setStatus(VehicleStatus.IN_USE);
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void finishRentalChangesStatusToAvailable() {
+        Vehicle vehicle = new TestVehicle("v3");
+        vehicle.setStatus(VehicleStatus.IN_USE);
+
+        vehicle.finishRental();
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void finishRentalDoesNothingWhenNotInUse() {
+        Vehicle vehicle = new TestVehicle("v4");
+
+        vehicle.finishRental();
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void markOutOfServiceChangesStatus() {
+        Vehicle vehicle = new TestVehicle("v5");
+
+        vehicle.markOutOfService();
+
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void restoreServiceChangesStatusToAvailable() {
+        Vehicle vehicle = new TestVehicle("v6");
+        vehicle.markOutOfService();
+
+        vehicle.restoreService();
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void restoreServiceDoesNothingWhenNotOutOfService() {
+        Vehicle vehicle = new TestVehicle("v7");
+        vehicle.setStatus(VehicleStatus.IN_USE);
+
+        vehicle.restoreService();
+
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void setStatusChangesVehicleStatus() {
+        Vehicle vehicle = new TestVehicle("v8");
+
+        vehicle.setStatus(VehicleStatus.OUT_OF_SERVICE);
+
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void startRentalDoesNothingWhenNotRentable() {
+        Vehicle vehicle = new TestVehicle("v9");
+        vehicle.markOutOfService();
+
+        vehicle.startRental();
+
+        assertFalse(vehicle.isRentable());
+    }
     // VehicleStatus Tests
     @Test
     public void availableStatusExists() {
