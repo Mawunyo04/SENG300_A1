@@ -8,7 +8,11 @@ public class ElectricScooter extends ElectricVehicle {
 
     @Override
     public boolean isRentable() {
-        // TODO: implement
-        return false;
+        // Rentable if:
+        // 1. They are AVAILABLE
+        // 2. Battery is above MIN_BATTERY
+        // 3. They are not OUT_OF_SERVICE
+
+        return status == VehicleStatus.AVAILABLE && batteryLevel >= MIN_BATTERY;
     }
 }
