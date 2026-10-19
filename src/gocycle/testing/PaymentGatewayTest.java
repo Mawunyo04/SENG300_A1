@@ -5,7 +5,6 @@ import gocycle.payments.SimulatedPaymentGateway;
 import gocycle.trips.Rider;
 import gocycle.trips.RiderRegistrationService;
 import org.junit.Test;
-
 import java.math.BigDecimal;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
