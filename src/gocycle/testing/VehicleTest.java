@@ -78,6 +78,103 @@ public class VehicleTest {
 
     // ElectricVehicles Tests
 
+    private static class TestElectricVehicle extends ElectricVehicle {
+
+        public TestElectricVehicle(String id, int batteryLevel) {
+            super(id, batteryLevel);
+        }
+
+        @Override
+        public boolean isRentable() {
+            return status == VehicleStatus.AVAILABLE
+                    && batteryLevel >= MIN_BATTERY;
+        }
+
+        public int getBatteryLevel() {
+            return batteryLevel;
+        }
+    }
+
+    @Test
+    public void electricVehicleMinimumBatteryIs20() {
+        assertEquals(20, ElectricVehicle.MIN_BATTERY);
+    }
+
+    @Test
+    public void updateBatteryLevelChangesBatteryLevel() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev1", 50);
+
+        vehicle.updateBatteryLevel(75);
+
+        assertEquals(75, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAllowsZero() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev2", 50);
+
+        vehicle.updateBatteryLevel(0);
+
+        assertEquals(0, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAllows100() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev3", 50);
+
+        vehicle.updateBatteryLevel(100);
+
+        assertEquals(100, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelBelowZeroSetsBatteryToZero() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev4", 50);
+
+        vehicle.updateBatteryLevel(-10);
+
+        assertEquals(0, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAbove100SetsBatteryTo100() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev5", 50);
+
+        vehicle.updateBatteryLevel(110);
+
+        assertEquals(100, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAllowsMinimumBattery() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev6", 50);
+
+        vehicle.updateBatteryLevel(ElectricVehicle.MIN_BATTERY);
+
+        assertEquals(ElectricVehicle.MIN_BATTERY,
+                vehicle.getBatteryLevel());
+        assertTrue(vehicle.isRentable());
+    }
+
+//    @Test
+//    public void reportFaultMarksVehicleOutOfService() {
+//        TestElectricVehicle vehicle = new TestElectricVehicle("ev7", 80);
+//
+//        vehicle.reportFault(null);
+//
+//        assertFalse(vehicle.isRentable());
+//    }
+//
+//    @Test
+//    public void reportFaultKeepsVehicleOutOfService() {
+//        TestElectricVehicle vehicle = new TestElectricVehicle("ev8", 80);
+//        vehicle.reportFault(null);
+//
+//        vehicle.updateBatteryLevel(100);
+//
+//        assertFalse(vehicle.isRentable());
+//    }
+
     // PedalBike Tests
 
     @Test
@@ -202,6 +299,7 @@ public class VehicleTest {
 
         assertFalse(vehicle.isRentable());
     }
+
     // VehicleStatus Tests
     @Test
     public void availableStatusExists() {

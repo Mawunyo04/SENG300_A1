@@ -23,10 +23,8 @@ public abstract class ElectricVehicle extends Vehicle {
             this.batteryLevel = level;
         }
     }
-
+//
 //    public void reportFault(FaultType type) {
-//        // For now, just mark the vehicle OUT_OF_SERVICE
-//        // (expand this later if you implement FaultService)
 //        this.status = VehicleStatus.OUT_OF_SERVICE;
 //    }
 }
