@@ -2,10 +2,19 @@ package gocycle.vehicles;
 
 public class ElectricScooter extends ElectricVehicle {
 
+    /**
+     * electric scooter constructor
+     * @param id electric scooter identification
+     * @param batteryLevel electric scooter battery level
+     */
     public ElectricScooter(String id, int batteryLevel) {
         super(id, batteryLevel);
     }
 
+    /**
+     * determine if electric scooter is available/ rentable
+     * @return status of the electric scooter
+     */
     @Override
     public boolean isRentable() {
         // Rentable if:

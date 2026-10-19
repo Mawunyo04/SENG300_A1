@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import gocycle.vehicles.*;
 import gocycle.trips.*;
 
+/**
+ * Test class to test Vehicles
+ */
 public class VehicleTest {
 
     // ElectricBike Tests
