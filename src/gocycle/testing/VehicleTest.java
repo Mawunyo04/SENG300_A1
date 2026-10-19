@@ -1,7 +1,7 @@
 package gocycle.testing;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import gocycle.vehicles.*;
 
 public class VehicleTest {
@@ -11,7 +11,7 @@ public class VehicleTest {
     // ElectricScooter Tests
 
     @Test
-    void scooterIsRentableWhenAvailableAndBatteryIsEnough() {
+    public void scooterIsRentableWhenAvailableAndBatteryIsEnough() {
         ElectricScooter scooter = new ElectricScooter("S1", 50);
         scooter.status = VehicleStatus.AVAILABLE;
 
@@ -19,7 +19,7 @@ public class VehicleTest {
     }
 
     @Test
-    void scooterIsNotRentableWhenBatteryTooLow() {
+    public void scooterIsNotRentableWhenBatteryTooLow() {
         ElectricScooter scooter = new ElectricScooter("S2", ElectricVehicle.MIN_BATTERY - 1);
         scooter.status = VehicleStatus.AVAILABLE;
 
@@ -27,7 +27,7 @@ public class VehicleTest {
     }
 
     @Test
-    void scooterIsNotRentableWhenOutOfService() {
+    public void scooterIsNotRentableWhenOutOfService() {
         ElectricScooter scooter = new ElectricScooter("S3", 80);
         scooter.status = VehicleStatus.OUT_OF_SERVICE;
 
@@ -35,7 +35,7 @@ public class VehicleTest {
     }
 
     @Test
-    void scooterIsNotRentableWhenInUse() {
+    public void scooterIsNotRentableWhenInUse() {
         ElectricScooter scooter = new ElectricScooter("S4", 80);
         scooter.status = VehicleStatus.IN_USE;
 

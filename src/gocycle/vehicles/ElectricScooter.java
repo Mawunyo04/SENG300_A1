@@ -1,4 +1,4 @@
-package vehicles;
+package gocycle.vehicles;
 
 public class ElectricScooter extends ElectricVehicle {
 

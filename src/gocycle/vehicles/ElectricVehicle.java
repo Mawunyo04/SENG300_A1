@@ -1,4 +1,4 @@
-package vehicles;
+package gocycle.vehicles;
 
 public abstract class ElectricVehicle extends Vehicle {
 

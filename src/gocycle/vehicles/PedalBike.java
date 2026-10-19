@@ -1,4 +1,4 @@
-package vehicles;
+package gocycle.vehicles;
 
 public class PedalBike extends Vehicle {
 
