@@ -107,4 +107,17 @@ public class VehicleTest {
     // Vehicle Tests
 
     // VehicleStatus Tests
+    @Test
+    public void availableStatusExists() {
+        assertEquals("AVAILABLE",
+                VehicleStatus.AVAILABLE.name());
+    }
+
+    @Test
+    public void inUseStatusExists() {
+        assertEquals("IN_USE",
+                VehicleStatus.IN_USE.name());
+    }
+
+
 }
