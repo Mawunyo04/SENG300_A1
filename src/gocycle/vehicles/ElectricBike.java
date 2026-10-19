@@ -8,7 +8,12 @@ public class ElectricBike extends ElectricVehicle {
 
     @Override
     public boolean isRentable() {
-        // TODO: implement
-        return false;
+        // Electric bikes are rentable only if:
+        // 1. They are AVAILABLE
+        // 2. Battery is above MIN_BATTERY
+        // 3. They are not OUT_OF_SERVICE or IN_USE
+
+        return status == VehicleStatus.AVAILABLE
+                && batteryLevel >= MIN_BATTERY;
     }
 }
