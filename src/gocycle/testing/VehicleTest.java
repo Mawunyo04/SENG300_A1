@@ -3,10 +3,44 @@ package gocycle.testing;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import gocycle.vehicles.*;
+import gocycle.trips.*;
 
 public class VehicleTest {
 
     // ElectricBike Tests
+
+    @Test
+    public void eBikeIsRentableWhenAvailableAndBatteryIsEnough() {
+        ElectricBike eBike = new ElectricBike("eB1", 50);
+        eBike.setStatus(VehicleStatus.AVAILABLE);
+
+        assertTrue(eBike.isRentable());
+    }
+
+    @Test
+    public void eBikeIsNotRentableWhenBatteryTooLow() {
+        ElectricBike eBike = new ElectricBike("eB2", ElectricVehicle.MIN_BATTERY - 1);
+        eBike.setStatus(VehicleStatus.AVAILABLE);
+
+
+        assertFalse(eBike.isRentable());
+    }
+
+    @Test
+    public void eBikeIsNotRentableWhenOutOfService() {
+        ElectricBike eBike = new ElectricBike("eB3", 80);
+        eBike.setStatus(VehicleStatus.OUT_OF_SERVICE);
+
+        assertFalse(eBike.isRentable());
+    }
+
+    @Test
+    public void eBikeIsNotRentableWhenInUse() {
+        ElectricBike eBike = new ElectricBike("eB4", 80);
+        eBike.setStatus(VehicleStatus.IN_USE);
+
+        assertFalse(eBike.isRentable());
+    }
 
     // ElectricScooter Tests
 

@@ -13,7 +13,6 @@ public class ElectricBike extends ElectricVehicle {
         // 2. Battery is above MIN_BATTERY
         // 3. They are not OUT_OF_SERVICE or IN_USE
 
-        return status == VehicleStatus.AVAILABLE
-                && batteryLevel >= MIN_BATTERY;
+        return status == VehicleStatus.AVAILABLE && batteryLevel >= MIN_BATTERY;
     }
 }
