@@ -8,7 +8,10 @@ public class PedalBike extends Vehicle {
 
     @Override
     public boolean isRentable() {
-        // TODO: implement
-        return false;
+        // Pedal bikes are rentable only if:
+        // 1. They are AVAILABLE
+        // 2. They are not OUT_OF_SERVICE or IN_USE
+
+        return status == VehicleStatus.AVAILABLE;
     }
 }
