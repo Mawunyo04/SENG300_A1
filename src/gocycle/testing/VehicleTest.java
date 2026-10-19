@@ -80,6 +80,30 @@ public class VehicleTest {
 
     // PedalBike Tests
 
+    @Test
+    public void bikeIsAvailable() {
+        PedalBike bike = new PedalBike("b1");
+        bike.setStatus(VehicleStatus.AVAILABLE);
+
+        assertTrue(bike.isRentable());
+    }
+
+    @Test
+    public void bikeIsInUse() {
+        PedalBike bike = new PedalBike("b2");
+        bike.setStatus(VehicleStatus.IN_USE);
+
+        assertFalse(bike.isRentable());
+    }
+
+    @Test
+    public void bikeIsOutOfService() {
+        PedalBike bike = new PedalBike("b3");
+        bike.setStatus(VehicleStatus.OUT_OF_SERVICE);
+
+        assertFalse(bike.isRentable());
+    }
+
     // Vehicle Tests
 
     // VehicleStatus Tests
