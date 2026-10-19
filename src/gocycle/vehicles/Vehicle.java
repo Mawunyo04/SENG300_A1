@@ -36,4 +36,8 @@ public abstract class Vehicle {
             this.status = VehicleStatus.AVAILABLE;
         }
     }
+
+    public void setStatus(VehicleStatus status) {
+        this.status = status;
+    }
 }

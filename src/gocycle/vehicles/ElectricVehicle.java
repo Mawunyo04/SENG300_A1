@@ -26,7 +26,7 @@ public abstract class ElectricVehicle extends Vehicle {
 
     public void reportFault(FaultType type) {
         // For now, just mark the vehicle OUT_OF_SERVICE
-        // (You can expand this later if you implement FaultService)
+        // (expand this later if you implement FaultService)
         this.status = VehicleStatus.OUT_OF_SERVICE;
     }
 }

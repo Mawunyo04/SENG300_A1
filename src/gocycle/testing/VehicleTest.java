@@ -13,7 +13,7 @@ public class VehicleTest {
     @Test
     public void scooterIsRentableWhenAvailableAndBatteryIsEnough() {
         ElectricScooter scooter = new ElectricScooter("S1", 50);
-        scooter.status = VehicleStatus.AVAILABLE;
+        scooter.setStatus(VehicleStatus.AVAILABLE);
 
         assertTrue(scooter.isRentable());
     }
@@ -21,7 +21,7 @@ public class VehicleTest {
     @Test
     public void scooterIsNotRentableWhenBatteryTooLow() {
         ElectricScooter scooter = new ElectricScooter("S2", ElectricVehicle.MIN_BATTERY - 1);
-        scooter.status = VehicleStatus.AVAILABLE;
+        scooter.setStatus(VehicleStatus.AVAILABLE);
 
         assertFalse(scooter.isRentable());
     }
@@ -29,7 +29,7 @@ public class VehicleTest {
     @Test
     public void scooterIsNotRentableWhenOutOfService() {
         ElectricScooter scooter = new ElectricScooter("S3", 80);
-        scooter.status = VehicleStatus.OUT_OF_SERVICE;
+        scooter.setStatus(VehicleStatus.OUT_OF_SERVICE);
 
         assertFalse(scooter.isRentable());
     }
@@ -37,7 +37,7 @@ public class VehicleTest {
     @Test
     public void scooterIsNotRentableWhenInUse() {
         ElectricScooter scooter = new ElectricScooter("S4", 80);
-        scooter.status = VehicleStatus.IN_USE;
+        scooter.setStatus(VehicleStatus.IN_USE);
 
         assertFalse(scooter.isRentable());
     }
