@@ -11,4 +11,16 @@ public class Rider {
         this.name = name;
         this.email = email;
     }
+
+    String getEmail(){
+        return email;
+    }
+
+    String getId(){
+        return id;
+    }
+
+    String getName(){
+        return name;
+    }
 }
