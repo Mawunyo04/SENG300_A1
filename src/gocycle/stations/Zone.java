@@ -43,17 +43,17 @@ public class Zone {
         this.primaryColour = primaryColour;
     }
 
-    
+    //add allowed payment method type
     public void addAllowedPayment(PaymentMethodType method) {
         allowedPayments.add(method);
     }
 
-   
+    //remove allowed payment method type
     public void removeAllowedPayment(PaymentMethodType method) {
         allowedPayments.remove(method);
     }
 
-    
+    //check if zone accepts this payment method
     public boolean allows(PaymentMethodType method) {
         return allowedPayments.contains(method);
     }
