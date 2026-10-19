@@ -45,7 +45,11 @@ SENG300_A1/
         │   ├── MemberPricing.java       
         │   ├── PricingStrategy.java       
         │   ├── StudenPricing.java       
-        │   ├── TimeBasedPricing.java       
+        │   ├── TimeBasedPricing.java
+        ├── trips/                  
+        │   ├── Rider.java       
+        │   ├── Membership.java       
+        │   ├── Trip.java             
         ├── (ADD UR PACKAGE STRUCTURES HERE)                 
         ├── 
         ├── 
@@ -69,4 +73,5 @@ Each member works on a feature branch and merges into `main` through a pull requ
 Branches: 
 
     - feature/payments
+    - feat_trips
     - (ADD UR BRANCHES HERE) 
