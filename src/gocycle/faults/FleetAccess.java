@@ -1,6 +1,6 @@
 package gocycle.faults;
 
-import gocycle.fleet.Vehicle;
+import gocycle.vehicles.Vehicle;
 import java.util.Map;
 
 public interface FleetAccess {

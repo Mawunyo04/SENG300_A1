@@ -1,6 +1,6 @@
 package gocycle.faults;
 
-import gocycle.fleet.Vehicle; // NB: Ask green group for package name if not fleet to replace
+import gocycle.vehicles.Vehicle;
 import java.time.LocalDateTime;
 
 public class FaultReport {
