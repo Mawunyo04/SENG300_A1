@@ -1,5 +1,6 @@
 package gocycle.payments;
 
+import gocycle.trips.*;
 import java.math.BigDecimal;
 public interface PaymentGateway {
     /**
