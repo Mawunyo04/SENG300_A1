@@ -13,11 +13,20 @@ public abstract class ElectricVehicle extends Vehicle {
     @Override
     public abstract boolean isRentable();
 
-    public updateBatteryLevel(int level) {
-        // TODO: implement
+    public void updateBatteryLevel(int level) {
+        // Update battery level, but ensure it stays within valid bounds
+        if (level < 0) {
+            this.batteryLevel = 0;
+        } else if (level > 100) {
+            this.batteryLevel = 100;
+        } else {
+            this.batteryLevel = level;
+        }
     }
 
     public void reportFault(FaultType type) {
-        // TODO: implement
+        // For now, just mark the vehicle OUT_OF_SERVICE
+        // (You can expand this later if you implement FaultService)
+        this.status = VehicleStatus.OUT_OF_SERVICE;
     }
 }
