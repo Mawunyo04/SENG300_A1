@@ -39,29 +39,37 @@ SENG300_A1/
         │   ├── ReceiptSender.java          
         │   ├── ReceiptText.java            
         │   ├── AppReceiptSender.java       
+
         │   └── EmailReceiptSender.java 
-        ├── pricing/                  
-        │   ├── CasualPricing.java       
-        │   ├── MemberPricing.java       
-        │   ├── PricingStrategy.java       
-        │   ├── StudenPricing.java       
-        │   ├── TimeBasedPricing.java
-        ├── stations/                  
-        │   ├── DockingPoint.java       
-        │   ├── Station.java       
-        │   ├── StationNetwork.java       
-        │   ├── StationScreen.java       
-        │   ├── Zone.java      
-        ├── trips/                  
-        │   ├── Rider.java       
-        │   ├── Membership.java       
-        │   ├── Trip.java             
-        ├── testing/              
-        │   ├── PaymentGatewayTest.java       
-        │   ├── PricingTest.java       
-        │   ├── ReceiptSenderTest.java
-
-
+        ├── faults/
+        │   ├── FaultType.java
+        │   ├── FaultSource.java
+        │   ├── FaultReport.java
+        │   ├── FaultObserver.java
+        │   ├── FaultService.java
+        │   ├── FleetAccess.java
+        │   ├── MaintenanceCrewNotifier.java
+        │   └── OperatorConsole.java
+        ├── pricing/
+        │   ├── CasualPricing.java
+        │   ├── MemberPricing.java
+        │   ├── PricingStrategy.java
+        │   ├── StudentPricing.java
+        │   └── TimeBasedPricing.java
+        ├── stations/
+        │   ├── DockingPoint.java
+        │   ├── Station.java
+        │   ├── StationNetwork.java
+        │   ├── StationScreen.java
+        │   └── Zone.java
+        ├── trips/
+        │   ├── Rider.java
+        │   ├── Membership.java
+        │   └── Trip.java
+        ├── testing/
+        │   ├── PaymentGatewayTest.java
+        │   ├── PricingTest.java
+        │   └── ReceiptSenderTest.java
         └──(ADD UR PACKAGES HERE)
 
 ```
@@ -83,10 +91,10 @@ Branches:
 
     - main
     - feature/payments
+    - feature/faults
     - feat_trips
     - chylsy-work
     - feature/stations
     - fix/gitignore-indentation
     - sara's-work
-    (ADD UR BRANCHES HERE) 
-
+    - (ADD UR BRANCHES HERE)
