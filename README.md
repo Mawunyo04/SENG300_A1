@@ -46,6 +46,13 @@ SENG300_A1/
         │   ├── PricingStrategy.java       
         │   ├── StudenPricing.java       
         │   ├── TimeBasedPricing.java
+        ├── stations/                  
+        │   ├── DockingPoint.java       
+        │   ├── Station.java       
+        │   ├── StationNetwork.java       
+        │   ├── StationScreen.java       
+        │   ├── Zone.java 
+        ├── (ADD UR PACKAGE STRUCTURES HERE)       
         ├── trips/                  
         │   ├── Rider.java       
         │   ├── Membership.java       
@@ -55,7 +62,6 @@ SENG300_A1/
         ├── 
         ├── 
         └── [Main.java]                
-```
 
 
 ## Build and run
