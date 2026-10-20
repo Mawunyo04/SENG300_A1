@@ -32,32 +32,32 @@ public class Trip {
     }
 
 
-    boolean isActive() {
+    public boolean isActive() {
         return (endTime == null);
     }
 
-    void end(LocalDateTime at) {
+    public void end(LocalDateTime at) {
         endTime = at;
     }
 
-    long getDurationMinutes() {
+    public long getDurationMinutes() {
         Duration duration = Duration.between(startTime, endTime);
         return duration.toMinutes();
     }
 
-    void markPaid() {
+    public void markPaid() {
         paid = true;
     }
 
-    void getId() {
+    public void getId() {
         return id;
     }
 
-    void getFare() {
+    public void getFare() {
         return fare;
     }
 
-    void getRider() {
+    public void getRider() {
         return rider;
     }
 

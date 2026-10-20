@@ -15,7 +15,7 @@ public class Membership {
         this.startDate = LocalDate.now();
     }
 
-    boolean isActive(){
+    public boolean isActive(){
         return (endDate == null);
     }
 
