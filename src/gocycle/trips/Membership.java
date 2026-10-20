@@ -4,20 +4,39 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Membership {
-    String plan;
-    BigDecimal price;
-    LocalDate startDate;
-    LocalDate endDate;
+    private String plan;
+    private BigDecimal price;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public Membership(String plan, BigDecimal price, LocalDate startDate, LocalDate endDate) {
         this.plan = plan;
         this.price = price;
-        this.startDate = LocalDate.now();
+        this.startDate = (startDate != null) ? startDate : LocalDate.now();
+        this.endDate = endDate;
     }
 
-    public boolean isActive(){
+    public boolean isActive() {
         return (endDate == null);
     }
 
-    //TODO: add end() method and put in UML.
+    public void end() {
+        this.endDate = LocalDate.now();
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public BigDecimal getMonthlyFee() {
+        return price;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
 }
