@@ -39,29 +39,37 @@ SENG300_A1/
         │   ├── ReceiptSender.java          
         │   ├── ReceiptText.java            
         │   ├── AppReceiptSender.java       
+
         │   └── EmailReceiptSender.java 
-        ├── pricing/                  
-        │   ├── CasualPricing.java       
-        │   ├── MemberPricing.java       
-        │   ├── PricingStrategy.java       
-        │   ├── StudenPricing.java       
-        │   ├── TimeBasedPricing.java
-        ├── stations/                  
-        │   ├── DockingPoint.java       
-        │   ├── Station.java       
-        │   ├── StationNetwork.java       
-        │   ├── StationScreen.java       
-        │   ├── Zone.java      
-        ├── trips/                  
-        │   ├── Rider.java       
-        │   ├── Membership.java       
-        │   ├── Trip.java             
-        ├── testing/              
-        │   ├── PaymentGatewayTest.java       
-        │   ├── PricingTest.java       
-        │   ├── ReceiptSenderTest.java
-
-
+        ├── faults/
+        │   ├── FaultType.java
+        │   ├── FaultSource.java
+        │   ├── FaultReport.java
+        │   ├── FaultObserver.java
+        │   ├── FaultService.java
+        │   ├── FleetAccess.java
+        │   ├── MaintenanceCrewNotifier.java
+        │   └── OperatorConsole.java
+        ├── pricing/
+        │   ├── CasualPricing.java
+        │   ├── MemberPricing.java
+        │   ├── PricingStrategy.java
+        │   ├── StudentPricing.java
+        │   └── TimeBasedPricing.java
+        ├── stations/
+        │   ├── DockingPoint.java
+        │   ├── Station.java
+        │   ├── StationNetwork.java
+        │   ├── StationScreen.java
+        │   └── Zone.java
+        ├── trips/
+        │   ├── Rider.java
+        │   ├── Membership.java
+        │   └── Trip.java
+        ├── testing/
+        │   ├── PaymentGatewayTest.java
+        │   ├── PricingTest.java
+        │   └── ReceiptSenderTest.java
         └──(ADD UR PACKAGES HERE)
 
 ```
@@ -70,35 +78,23 @@ SENG300_A1/
 - IntelliJ IDEA
 
 ## Build
-From the project's top folder (macOS/Linux terminal):
 
-    javac -d out $(find src -name "*.java" -not -path "*/testing/*")
 
-No output means the code compiled. The compiled files go in the `out` folder.
 
-In IntelliJ (any operating system): Build > Build Project.
 
 ## Run
-This project is a set of core classes (trips, pricing, payments, faults, etc.) and has
-no main program. The classes are exercised by the JUnit tests in `src/gocycle/testing`.
 
-1. Open any test file. If `org.junit` is red, hover over it and choose
-   "Add JUnit4 to classpath".
-2. Right-click `src/gocycle/testing` > Run 'Tests in gocycle.testing'.
 
-The payment classes print their actions (for example "[PAYMENT] Placed hold ...") in the
-IntelliJ console while the tests run.
-## Git workflow
-Each member works on a feature branch and merges into `main` through a pull request .
+
 
 Branches: 
 
     - main
     - feature/payments
+    - feature/faults
     - feat_trips
     - chylsy-work
     - feature/stations
     - fix/gitignore-indentation
     - sara's-work
-    (ADD UR BRANCHES HERE) 
-
+    - (ADD UR BRANCHES HERE)
