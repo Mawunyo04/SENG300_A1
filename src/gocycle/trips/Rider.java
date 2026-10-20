@@ -15,7 +15,7 @@ public class Rider {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.pricing = new CasualPricing();
+        this.pricing = new CasualPricing(); // as a default before it gets
     }
 
     public String getEmail() {
