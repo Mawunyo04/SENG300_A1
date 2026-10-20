@@ -4,6 +4,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import gocycle.vehicles.*;
 import gocycle.trips.*;
+import gocycle.faults.FaultType;
+
 
 /**
  * Test class to test Vehicles
@@ -163,7 +165,7 @@ public class VehicleTest {
     public void reportFaultMarksVehicleOutOfService() {
         TestElectricVehicle vehicle = new TestElectricVehicle("ev7", 80);
 
-        vehicle.reportFault(null);
+        vehicle.reportFault(FaultType.LOW_BATTERY);
 
         assertFalse(vehicle.isRentable());
     }
@@ -171,14 +173,14 @@ public class VehicleTest {
     @Test
     public void reportFaultKeepsVehicleOutOfService() {
         TestElectricVehicle vehicle = new TestElectricVehicle("ev8", 80);
-        vehicle.reportFault(null);
+        vehicle.reportFault(FaultType.MOTOR_FAULT);
 
         vehicle.updateBatteryLevel(100);
 
         assertFalse(vehicle.isRentable());
     }
 
-     PedalBike Tests
+    // PedalBike Tests
 
     @Test
     public void bikeIsAvailable() {
