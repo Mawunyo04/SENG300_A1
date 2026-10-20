@@ -60,5 +60,7 @@ public class Trip {
     public Rider getRider() {
         return this.rider;
     }
+    public void setFare(BigDecimal fare) {this.fare = fare;
+    }
 
 }

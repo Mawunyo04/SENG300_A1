@@ -73,4 +73,9 @@ public abstract class Vehicle {
     public void setStatus(VehicleStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }

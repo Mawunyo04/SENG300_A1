@@ -1,169 +1,491 @@
 package gocycle.main;
 
-import java.util.*;
-
-/* CONFIG imports */
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.math.BigDecimal;
+import gocycle.faults.*;
 import gocycle.payments.*;
 import gocycle.pricing.*;
+import gocycle.stations.*;
 import gocycle.trips.*;
 import gocycle.vehicles.*;
-import gocycle.stations.*;
 
+//text menu for the GoCycle app.
 public class Main {
-    
-    /* Class fields */
-    public static int USER_OPTION;
 
-    public static Console console = new Console();
-    public static Scanner scanner = new Scanner(System.in);
+    //menu
+    static final String[] APP_OPTIONS = {
+            "1) Rider options",
+            "2) Operator options",
+            "0) Exit"
+    };
 
-    /* 
-    * GoCycle app needs to do the following:
-    *   1) Rider options
-    *   2) Operator options                 <- Not implementing role checking/security
-    *   3) Output demonstration options
-    *   0) Exit
-    * 
-    * NOTE: There's only one Rider/Operator per run anyway...
-    */
+    static final String[] RIDER_OPTIONS = {
+            "1) View stations and available vehicles",
+            "2) Start a ride",
+            "3) Return a vehicle",
+            "4) Report a vehicle problem",
+            "0) Back"
+    };
 
+    static final String[] OPERATOR_OPTIONS = {
+            "1) View stations and vehicle status",
+            "2) View reported faults",
+            "3) Relocate a vehicle",
+            "4) Take a vehicle out of service",
+            "5) Restore a vehicle to service",
+            "0) Back"
+    };
 
-    /* This program will run using System.out.println and Scanner */
+    //app state
+    static Scanner scanner =new Scanner(System.in);
+    static StationNetwork network=new StationNetwork();
+    static Map<String, Vehicle> vehicles=new LinkedHashMap<String, Vehicle>();
+    static Fleet fleet = new Fleet();
+    static FaultService faults = new FaultService(fleet);
+    static Rider rider;
+    static PricingStrategy pricing;
+    static Trip activeTrip;
+    static Vehicle activeVehicle;
+    static int tripCount = 0;
+
     public static void main(String[] args) {
+        setup();
 
-        while (true) {
-
-            /* Begin program */
-            System.out.println(console.WELCOME_MESSAGE);
-
-            try {
-
-                USER_OPTION = userOption();
-            } catch (NumberFormatException e) {
-
-                System.out.println(console.ENTER_OPTION);
-                continue;
-            }
-
-            switch (USER_OPTION) {
+        while (true){
+            System.out.println("Welcome to the GoCycle app! Please select from the following options:");
+            switch (menu(APP_OPTIONS)) {
                 case 1:
-
-                    riderWork();
+                    riderMenu();
                     break;
                 case 2:
-
-                    operatorWork();
+                    operatorMenu();
                     break;
                 case 0:
-
-                    System.out.println(console.GOODBYE_MESSAGE);
+                    System.out.println("Thank you for using the GoCycle app!");
                     return;
                 default:
-
-                    System.out.println(console.ERROR_MESSAGE);
+                    System.out.println("Please select a valid option.");
             }
         }
     }
 
-    /* Helper method to collect user selection and run app according to user's entered value */
-    public static int userOption() {
+    /* ---------------- Rider ---------------- */
 
-        int option = 0;
-        for (String x : console.APP_OPTIONS) System.out.println(x + "\n");
+    static void riderMenu() {
+        //ask for rider details the first time only so an active ride stays with its rider
+        if (rider==null) {
+            String name =ask("Enter your name: ");
+            String email =ask("Enter your email: ");
+            rider =new Rider("R1",name, email);
 
-        /* Do we have time to do error checking */
-        option = Integer.parseInt(scanner.nextLine().trim());
-
-        return option;
-    }
-
-    /* Handles all Rider work and features */
-    public static void riderWork() {
-
-        /* Collect Rider information */
-        System.out.println(console.NEW_RIDER[0] + "\n");
-        String riderName = scanner.nextLine();
-
-        System.out.println(console.NEW_RIDER[1] + "\n");
-        String riderEmail = scanner.nextLine();
-
-        /* Instantiate new Rider with a fixed ID for this session */
-        Rider rider = new Rider("R1", riderName, riderEmail);
+            if (ask("Are you a student? (y/n): ").equalsIgnoreCase("y") ) {
+                pricing =new StudentPricing() ;
+            }
+            else {
+                pricing=new CasualPricing();
+            }
+        }
 
         while (true) {
-            for (String x : console.RIDER_OPTIONS) System.out.println(x + "\n");
-
-            /* Collect the rider's menu selection */
-            int rOption;
-
-            try {
-                rOption = Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println(console.ENTER_OPTION);
-                continue;
-            }
-
-            switch (rOption) {
+            switch (menu(RIDER_OPTIONS)) {
                 case 1:
-                    // {view station data stuff here}
+                    viewVehicles();
                     break;
                 case 2:
-                    // rider.{start new ride logic here}
+                    startRide();
                     break;
                 case 3:
-                    // {return a vehicle after a ride}
+                    returnVehicle();
                     break;
                 case 4:
-                    // {report vehicle issues}
+                    reportProblem();
                     break;
                 case 0:
                     return;
                 default:
-                    System.out.println(console.ERROR_MESSAGE);
+                    System.out.println("Please select a valid option.");
             }
         }
     }
 
-    /* Handles all available operator features */
-    public static void operatorWork() {
-
-        while (true) {
-            for (String x : console.OPERATOR_OPTIONS) {
-                System.out.println(x);
+    static void viewVehicles() {
+        for (Station s :network.getStations()) {
+            System.out.println("Station " + s.getId() + " (" + s.getZone().getName() + ")");
+            for (DockingPoint p : s.getPoints()) {
+                Vehicle v =p.getVehicle();
+                if (v ==null) {
+                    System.out.println("  " +p.getId() + ": free");
+                } else if (v.isRentable()) {
+                    System.out.println("  " +p.getId() + ": " + idOf(v) +" (available)");
+                } else {
+                    System.out.println("  " +p.getId() + ": " + idOf(v) + " (not available)");
+                }
             }
+        }
+        System.out.println();
+    }
 
-            /* Collect the operator's menu selection */
-            int oOption;
+    static void startRide() {
+        if (activeTrip !=null) {
+            System.out.println("You already have a ride in progress.");
+            return;
+        }
 
+        Station station = findStation(ask("Enter station ID (e.g. S1): "));
+        if (station==null) {
+            System.out.println("No station with that ID.");
+            return;
+        }
+        Vehicle vehicle = findVehicle(ask("Enter vehicle ID (e.g. PB1): "));
+        if (vehicle ==null) {
+            System.out.println("No vehicle with that ID.");
+            return;
+        }
+        DockingPoint point =pointOf(station, vehicle);
+        if (point == null){
+            System.out.println("That vehicle is not docked at station " +station.getId() + ".");
+            return;
+        }
+        if (!vehicle.isRentable()) {
+            System.out.println(idOf(vehicle) +" cannot be rented right now (in use, out of service, or low battery).");
+            return;
+        }
+
+        point.releaseVehicle();
+        vehicle.startRental();
+        tripCount++;
+        activeTrip = new Trip("T" + tripCount, rider, "HOLD-" + tripCount, null);
+        activeVehicle = vehicle;
+        System.out.println("Ride " +activeTrip.getId() + " started on " + idOf(vehicle) + ".");
+    }
+
+    static void returnVehicle(){
+        if (activeTrip ==null) {
+            System.out.println("You do not have a ride in progress.");
+            return;
+        }
+
+        Station station = findStation(ask("Enter station ID (e.g. S1): "));
+        if (station ==null) {
+            System.out.println("No station with that ID.");
+            return;
+        }
+
+        //trip doesnt end until the vehicle is locked into a free point
+        if (station.isFull()) {
+            Station other =network.findNearestWithFreePoint(station);
+            if (other ==null) {
+                System.out.println("Station "+station.getId() +" is full and no other station has a free point.");
+            } else {
+                System.out.println("Station " + station.getId() + " is full. Nearest station with a free point: "+ other.getId() + " (" + String.format("%.2f", station.distanceTo(other)) + " km).");
+            }
+            return;
+        }
+
+        int minutes =number("Enter ride length in minutes (simulated): ");
+        if (minutes <0) {
+            System.out.println("Please enter a whole number of 0 or more.");
+            return;
+        }
+
+        station.findFreePoint().dock(activeVehicle);
+        activeVehicle.finishRental();
+        activeTrip.end(LocalDateTime.now().plusMinutes(minutes));
+        BigDecimal fare = pricing.calculateFare(activeTrip.getDurationMinutes());
+        activeTrip.setFare(fare);
+        activeTrip.markPaid();
+        System.out.println("Ride " +activeTrip.getId() + " ended. Fare: $" + fare.toPlainString());
+
+        ReceiptSender[] senders ={ new AppReceiptSender(), new EmailReceiptSender() };
+        for (ReceiptSender sender : senders) {
             try {
-                oOption = Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println(console.ENTER_OPTION);
-                continue;
+                sender.send(activeTrip);
             }
+            catch (IllegalStateException excep) {
+                System.out.println("Receipt not sent: " + excep.getMessage());
+            }
+        }
 
-            switch (oOption) {
+        activeTrip = null;
+        activeVehicle = null;
+    }
+
+    static void reportProblem() {
+        Vehicle vehicle = findVehicle(ask("Enter vehicle ID (e.g. PB1): "));
+        if (vehicle == null) {
+            System.out.println("No vehicle with that ID.");
+            return;
+        }
+
+        FaultType[] types = FaultType.values();
+        for (int i=0; i <types.length; i++) {
+            System.out.println((i+1) + ") " + types[i]);
+        }
+        int choice = number("Enter the problem number: ");
+        if (choice < 1||choice >types.length) {
+            System.out.println("Please select a valid option.");
+            return;
+        }
+
+        String description =ask("Describe the problem: ");
+        try {
+            FaultReport report = faults.reportFault(vehicle, types[choice - 1], FaultSource.RIDER, description);
+            System.out.println("Problem reported: " + report);
+            System.out.println(idOf(vehicle) + " is now out of service.");
+        } catch (IllegalArgumentException excep) {
+            System.out.println(excep.getMessage());
+        }
+    }
+
+    /* ---------------- Operator ---------------- */
+
+    static void operatorMenu() {
+        while (true) {
+            switch (menu(OPERATOR_OPTIONS)) {
                 case 1:
-                    // {view stations and vehicle status}
+                    viewStatus();
                     break;
                 case 2:
-                    // {view reported faults}
+                    viewFaults();
                     break;
                 case 3:
-                    // {relocate a vehicle}
+                    relocateVehicle();
                     break;
                 case 4:
-                    // {take a vehicle out of service}
+                    takeOutOfService();
                     break;
                 case 5:
-                    // {restore a vehicle to service}
+                    restoreToService();
                     break;
                 case 0:
                     return;
                 default:
-                    System.out.println(console.ERROR_MESSAGE);
+                    System.out.println("Please select a valid option.");
             }
         }
     }
-    
+
+    static void viewStatus() {
+        System.out.println("Stations:");
+        for (Map.Entry<String, String> e : fleet.getStationStatuses().entrySet()) {
+            System.out.println("  " + e.getKey() + ": "+ e.getValue());
+        }
+        System.out.println("Vehicles:");
+        for (Map.Entry<String, String> e : fleet.getVehicleStatuses().entrySet()) {
+            System.out.println("  " + e.getKey() + ": " + e.getValue());
+        }
+        System.out.println();
+    }
+
+    static void viewFaults() {
+        List<FaultReport> reports =faults.getReports();
+        if (reports.isEmpty()) {
+            System.out.println("No faults have been reported.");
+        }
+        for (FaultReport r :reports) {
+            boolean open =faults.getOpenFaults(r.getVehicle()).contains(r);
+            System.out.println((open ? "[OPEN] " :"[RESOLVED] ") + idOf(r.getVehicle()) + ": " + r);
+        }
+        System.out.println();
+    }
+
+    static void relocateVehicle() {
+        Vehicle vehicle = findVehicle(ask("Enter vehicle ID (e.g. PB1): "));
+        if (vehicle == null) {
+            System.out.println("No vehicle with that ID.");
+            return;
+        }
+        String destination = ask("Enter destination station ID: ").toUpperCase();
+        try {
+            fleet.relocateVehicle(vehicle, destination);
+            System.out.println(idOf(vehicle) + " moved to station " + destination + ".");
+        } catch (RuntimeException e) {
+            System.out.println("Could not relocate: " + e.getMessage());
+        }
+    }
+
+    static void takeOutOfService(){
+        Vehicle vehicle = findVehicle(ask("Enter vehicle ID (e.g. PB1): "));
+        if (vehicle == null) {
+            System.out.println("No vehicle with that ID.");
+
+            return;
+        }
+        faults.takeOutOfService(vehicle);
+        System.out.println(idOf(vehicle) +" is now out of service.");
+    }
+
+    /* Restoring a vehicle counts as the repair being done, so its open faults are resolved first */
+    static void restoreToService() {
+        Vehicle vehicle = findVehicle(ask("Enter vehicle ID (e.g. PB1): "));
+        if (vehicle == null) {
+            System.out.println("No vehicle with that ID.");
+            return;
+        }
+        try {
+            for (FaultReport r :faults.getOpenFaults(vehicle)) {
+                faults.resolveFault(r);
+            }
+            faults.restoreService(vehicle);
+            System.out.println(idOf(vehicle) + " is back in service.");
+        } catch (RuntimeException excep) {
+            System.out.println("Could not restore: " +excep.getMessage());
+        }
+    }
+
+    /* ---------------- Setup and helpers ---------------- */
+
+    /* 2 zones, 3 stations, 5 vehicles */
+    static void setup() {
+        Zone downtown =new Zone("Downtown", "logos/downtown.png", "blue");
+        Zone campus =new Zone("Campus", "logos/campus.png", "red");
+        for (PaymentMethodType m : PaymentMethodType.values()) {
+            downtown.addAllowedPayment(m);
+            campus.addAllowedPayment(m);
+        }
+
+        network.addStation(new Station("S1", 51.0447, -115.0729, downtown, 4));
+        network.addStation(new Station("S2", 51.0786, -115.1209, campus, 3));
+        network.addStation(new Station("S3", 51.0486, -115.0345, downtown, 2));
+
+        addVehicle("PB1", new PedalBike("PB1"), "S1");
+        addVehicle("PB2", new PedalBike("PB2"), "S1");
+        addVehicle("EB1", new ElectricBike("EB1", 80), "S2");
+        addVehicle("EB2", new ElectricBike("EB2", 15), "S2");   /* battery below 20, so not rentable */
+        addVehicle("ES1", new ElectricScooter("ES1", 60), "S3");
+
+        faults.addObserver(new MaintenanceCrewNotifier());
+    }
+
+    static void addVehicle(String id, Vehicle vehicle, String stationId) {
+        vehicles.put(id, vehicle);
+        findStation(stationId).findFreePoint().dock(vehicle);
+    }
+
+    static String ask(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine().trim();
+    }
+
+    /* Returns the number typed, or -1 if it is not a whole number */
+    static int number(String prompt) {
+        try {
+            return Integer.parseInt(ask(prompt));
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    static int menu(String[] options) {
+        for (String option : options) {
+            System.out.println(option);
+        }
+        return number("Please enter a menu number: ");
+    }
+
+    static Station findStation(String id) {
+        for (Station s : network.getStations()) {
+            if (s.getId().equalsIgnoreCase(id)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    static Vehicle findVehicle(String id) {
+        return vehicles.get(id.toUpperCase());
+    }
+
+    static String idOf(Vehicle vehicle) {
+        for (Map.Entry<String, Vehicle> e :vehicles.entrySet()) {
+            if (e.getValue() ==vehicle) {
+                return e.getKey();
+            }
+        }
+        return "?";
+    }
+
+    static DockingPoint pointOf(Station station, Vehicle vehicle) {
+        for (DockingPoint p : station.getPoints()) {
+            if (p.getVehicle() == vehicle) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    static Station stationOf(Vehicle vehicle) {
+        for (Station s :network.getStations()) {
+            if (pointOf(s, vehicle) != null) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /* The fleet operations the fault service and operator menu use */
+    static class Fleet implements FleetAccess {
+
+        @Override
+        public void takeOutOfService(Vehicle vehicle) {
+            vehicle.markOutOfService();
+        }
+
+        @Override
+        public void restoreService(Vehicle vehicle) {
+            vehicle.restoreService();
+        }
+
+        @Override
+        public void relocateVehicle(Vehicle vehicle, String destinationStationId) {
+            Station from =stationOf(vehicle);
+            Station to =findStation(destinationStationId);
+            if (from==null) {
+                throw new IllegalStateException(idOf(vehicle) + " is not docked at a station.");
+            }
+            if (to ==null) {
+                throw new IllegalArgumentException("No station with ID " + destinationStationId + ".");
+            }
+            if (to==from) {
+                throw new IllegalArgumentException(idOf(vehicle) + " is already at station " + to.getId() + ".");
+            }
+            if (to.isFull()) {
+                throw new IllegalStateException("Station " + to.getId() + " is full.");
+            }
+            pointOf(from, vehicle).releaseVehicle();
+            to.findFreePoint().dock(vehicle);
+        }
+
+        @Override
+        public Map<String, String> getVehicleStatuses() {
+            Map<String, String> result =new LinkedHashMap<String, String>();
+            for (Map.Entry<String, Vehicle> e : vehicles.entrySet()) {
+                Station s=stationOf(e.getValue());
+                String where=(s == null) ? "on a ride" : "docked at " + s.getId();
+                String state=e.getValue().isRentable() ? "available" : "not available";
+                result.put(e.getKey(), state + ", " + where);
+            }
+            return result;
+        }
+
+        @Override
+        public Map<String, String>getStationStatuses() {
+            Map<String, String> result =new LinkedHashMap<String, String>();
+            for (Station s : network.getStations()) {
+                int free=0;
+                for (DockingPoint p : s.getPoints()){
+                    if (p.isFree()) {
+                        free++;
+                    }
+                }
+                result.put(s.getId(), s.getZone().getName() + ", " free + " of "+ s.getPoints().size() + " points free");
+            }
+
+            return result;
+        }
+    }
 }
