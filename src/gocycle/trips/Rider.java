@@ -12,15 +12,15 @@ public class Rider {
         this.email = email;
     }
 
-    String getEmail(){
+    public String getEmail(){
         return email;
     }
 
-    String getId(){
+    public String getId(){
         return id;
     }
 
-    String getName(){
+    public String getName(){
         return name;
     }
 }

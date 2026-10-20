@@ -51,33 +51,42 @@ SENG300_A1/
         │   ├── Station.java       
         │   ├── StationNetwork.java       
         │   ├── StationScreen.java       
-        │   ├── Zone.java 
-        ├── (ADD UR PACKAGE STRUCTURES HERE)       
+        │   ├── Zone.java      
         ├── trips/                  
         │   ├── Rider.java       
         │   ├── Membership.java       
         │   ├── Trip.java             
-        ├── (ADD UR PACKAGE STRUCTURES HERE)                 
-        ├── 
-        ├── 
-        ├── 
-        └── [Main.java]                
+        ├── testing/              
+        │   ├── PaymentGatewayTest.java       
+        │   ├── PricingTest.java       
+        │   ├── ReceiptSenderTest.java
 
 
-## Build and run
+        └──(ADD UR PACKAGES HERE)
 
-(NEED TO DO)
+```
+## Requirements
+- Java 11 or newer (a JDK)
+- IntelliJ IDEA
+
+## Build
 
 
 
 
-Or open the project in IntelliJ and run `[MainClassName]`.
+## Run
 
-## Git workflow
-Each member works on a feature branch and merges into `main` through a pull request .
+
+
 
 Branches: 
 
+    - main
     - feature/payments
     - feat_trips
-    - (ADD UR BRANCHES HERE) 
+    - chylsy-work
+    - feature/stations
+    - fix/gitignore-indentation
+    - sara's-work
+    (ADD UR BRANCHES HERE) 
+
