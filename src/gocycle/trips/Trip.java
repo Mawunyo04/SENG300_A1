@@ -73,8 +73,6 @@ public class Trip {
     public Rider getRider() {
         return this.rider;
     }
-    public void setFare(BigDecimal fare) {this.fare = fare;
-    }
 
     public void setRider(Rider rider) {
         this.rider = rider;
