@@ -49,16 +49,16 @@ public class Trip {
         paid = true;
     }
 
-    public void getId() {
-        return id;
+    public String getId() {
+        return this.id;
     }
 
-    public void getFare() {
-        return fare;
+    public BigDecimal getFare() {
+        return this.fare;
     }
 
-    public void getRider() {
-        return rider;
+    public Rider getRider() {
+        return this.rider;
     }
 
 }
