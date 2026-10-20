@@ -25,7 +25,7 @@ public class StationsTest {
     void setUp() { /* set up objects for testing */
         out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        zone = new Zone("North", "north.png", "#0055AA");
+        zone = new Zone("North", "north.png", "#33aa00");
         zone.addAllowedPayment(PaymentMethodType.CREDIT_CARD);
         s1 = new Station("S1", 51.0447, -114.0719, zone, 2);
         s2 = new Station("S2", 51.0486, -114.0708, zone, 1);
@@ -194,10 +194,16 @@ public class StationsTest {
     }
  
     @Test
-    void screenShowsTheZoneLogoAndColor() {
+    void screenShowsTheZoneLogo() {
         screen.show("Welcome to GoCycle");
-        assertTrue(printed().contains("north.png"));
-        assertTrue(printed().contains("#0055AA"));
+        String text = printed();
+        assertTrue(text.contains("north.png"));
+        
+    }
+    @Test 
+    void screenShowsTheZoneColor(){
+        screen.show("Welcome to GoCycle");
+        assertTrue(printed().contains("#33aa00"));
     }
  
     @Test
