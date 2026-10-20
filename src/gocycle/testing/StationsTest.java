@@ -1,15 +1,15 @@
 package gocycle.testing;
  
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 import gocycle.payments.PaymentMethodType;
 import gocycle.stations.*;
 import gocycle.vehicles.PedalBike;
 import gocycle.vehicles.Vehicle;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
  
 
 public class StationsTest {
@@ -21,8 +21,8 @@ public class StationsTest {
     private StationNetwork network;
     private StationScreen screen; // the screen of s1
  
-    @BeforeEach
-    void setUp() { /* set up objects for testing */
+    @Before
+    public void setUp() { /* set up objects for testing */
         out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         zone = new Zone("North", "north.png", "#33aa00");
@@ -37,8 +37,8 @@ public class StationsTest {
         screen = s1.getScreen();
     }
  
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         System.setOut(realOut);
     }
  
@@ -61,25 +61,25 @@ public class StationsTest {
     /* tests for docking point */
 
     @Test
-    void cannotDockNullVehicle() {
+    public void cannotDockNullVehicle() {
     DockingPoint p = new DockingPoint("P1");
     assertFalse(p.dock(null));
     }
 
     @Test 
-    void dockingNullLeavesPointFree(){
+    public void dockingNullLeavesPointFree(){
     DockingPoint p = new DockingPoint("P1");
     p.dock(null);
     assertTrue(p.isFree());    
     }
  
     @Test
-    void newDockingPointIsFree() {
+    public void newDockingPointIsFree() {
         assertTrue(new DockingPoint("P1").isFree());
     }
  
     @Test
-    void canDockAndLockVehicle() {
+    public void canDockAndLockVehicle() {
         assertTrue(new DockingPoint("P1").dock(bike("B1")));
         DockingPoint p = new DockingPoint("P1");
         p.dock(bike("B1"));
@@ -87,14 +87,14 @@ public class StationsTest {
     }
  
     @Test
-    void occupiedDockingPointRefusesASecondVehicle() {
+    public void occupiedDockingPointRefusesASecondVehicle() {
         DockingPoint p = new DockingPoint("P1");
         p.dock(bike("B1"));
         assertFalse(p.dock(bike("B2")));
     }
  
     @Test
-    void releaseGivesBackTheVehicle() {
+    public void releaseGivesBackTheVehicle() {
         DockingPoint p = new DockingPoint("P1");
         Vehicle b = bike("B1");
         p.dock(b);
@@ -102,7 +102,7 @@ public class StationsTest {
     }
  
     @Test
-    void releaseUnlocksTheDockingPoint() {
+    public void releaseUnlocksTheDockingPoint() {
         DockingPoint p = new DockingPoint("P1");
         p.dock(bike("B1"));
         p.releaseVehicle();
@@ -112,73 +112,73 @@ public class StationsTest {
     /* tests for zone */
  
     @Test
-    void zoneKeepsItsLogoAndColor() {
+    public void zoneKeepsItsLogoAndColor() {
         assertEquals("north.png", zone.getLogoPath());
-         assertEquals("#0055AA", zone.getPrimaryColour());
+         assertEquals("#33aa00", zone.getPrimaryColour());
     }
  
  
     @Test
-    void zoneAllowsAnAddedPaymentMethod() {
+    public void zoneAllowsAnAddedPaymentMethod() {
         assertTrue(zone.allows(PaymentMethodType.CREDIT_CARD));
     }
  
     @Test
-    void zoneRefusesAPaymentMethodThatWasNotAdded() {
+    public void zoneRefusesAPaymentMethodThatWasNotAdded() {
         assertFalse(zone.allows(PaymentMethodType.TRANSIT_CARD));
     }
  
     /* tests for station */
  
     @Test
-    void stationNeedsAtLeastOneDockingPoint() {
+    public void stationNeedsAtLeastOneDockingPoint() {
         assertThrows(IllegalArgumentException.class, () -> new Station("X", 0, 0, zone, 0));
     }
  
     @Test
-    void emptyStationIsNotFull() {
+    public void emptyStationIsNotFull() {
         assertFalse(s1.isFull());
     }
  
     @Test
-    void stationWithEveryPointOccupiedIsFull() {
+    public void stationWithEveryPointOccupiedIsFull() {
         fill(s1);
         assertTrue(s1.isFull());
     }
  
     @Test
-    void fullStationHasNoFreePoint() {
+    public void fullStationHasNoFreePoint() {
         fill(s1);
         assertNull(s1.findFreePoint());
     }
  
     @Test
-    void distanceBetweenStationsIsInKilometres() {
+    public void distanceBetweenStationsIsInKilometres() {
         assertEquals(0.44, s1.distanceTo(s2), 0.04);
     }
  
     /* tests for station network */
  
     @Test
-    void nearestStationWithSpaceIsFound() {
+    public void nearestStationWithSpaceIsFound() {
         assertSame(s2, network.findNearestWithFreePoint(s1));
     }
  
     @Test
-    void fullStationIsSkippedWhenFindingTheNearest() {
+    public void fullStationIsSkippedWhenFindingTheNearest() {
         fill(s2);
         assertSame(s3, network.findNearestWithFreePoint(s1));
     }
  
     @Test
-    void noStationIsFoundWhenAllOthersAreFull() {
+    public void noStationIsFoundWhenAllOthersAreFull() {
         fill(s2);
         fill(s3);
         assertNull(network.findNearestWithFreePoint(s1));
     }
  
     @Test
-    void networkStatePrintsEveryStation() {
+    public void networkStatePrintsEveryStation() {
         printed();
         network.printNetworkState();
         String text = printed();
@@ -188,70 +188,70 @@ public class StationsTest {
     /* tests for station screen */
  
     @Test
-    void screenShowsTheMessage() {
+    public void screenShowsTheMessage() {
         screen.show("Welcome to GoCycle");
         assertTrue(printed().contains("Welcome to GoCycle"));
     }
  
     @Test
-    void screenShowsTheZoneLogo() {
+    public void screenShowsTheZoneLogo() {
         screen.show("Welcome to GoCycle");
         String text = printed();
         assertTrue(text.contains("north.png"));
         
     }
     @Test 
-    void screenShowsTheZoneColor(){
+    public void screenShowsTheZoneColor(){
         screen.show("Welcome to GoCycle");
         assertTrue(printed().contains("#33aa00"));
     }
  
     @Test
-    void screenReadsAMessageAloud() {
+    public void screenReadsAMessageAloud() {
         screen.readAloud("Welcome to GoCycle");
         assertTrue(printed().contains("out loud"));
     }
  
     @Test
-    void screenRedirectsTheRiderToAnotherStation() {
+    public void screenRedirectsTheRiderToAnotherStation() {
         screen.showRedirect(s2);
         assertTrue(printed().contains("Please go to station S2"));
     }
  
     @Test
-    void screenTellsTheRiderWhenNoStationHasSpace() {
+    public void screenTellsTheRiderWhenNoStationHasSpace() {
         screen.showRedirect(null);
         assertTrue(printed().contains("No free station is available nearby"));
     }
  
     @Test
-    void screenListsAnAllowedPaymentMethod() {
+    public void screenListsAnAllowedPaymentMethod() {
         screen.showPaymentOptions();
         assertTrue(printed().contains("Credit card"));
     }
  
     @Test
-    void screenDoesNotListAPaymentMethodThatIsNotAllowed() {
+    public void screenDoesNotListAPaymentMethodThatIsNotAllowed() {
         screen.showPaymentOptions();
         assertFalse(printed().contains("Transit card"));
     }
  
     @Test
-    void screenStartsInEnglishAndCanSwitchToFrench() {
+    public void screenStartsInEnglishAndCanSwitchToFrench() {
         assertEquals("en", screen.getLanguage());
         screen.setLanguage("fr");
         assertEquals("fr", screen.getLanguage());
     }
  
     @Test
-    void screenShowsFrenchTextAfterSwitchingToFrench() {
+    public void screenShowsFrenchTextAfterSwitchingToFrench() {
         screen.setLanguage("fr");
         screen.show("Welcome to GoCycle");
         assertTrue(printed().contains("Bienvenue chez GoCycle"));
     }
  
     @Test
-    void screenRefusesAnUnsupportedLanguage() {
+    public void screenRefusesAnUnsupportedLanguage() {
         screen.setLanguage("es");
         assertEquals("en", screen.getLanguage());
     }
