@@ -12,6 +12,7 @@ public class Trip {
     String holdId;
     BigDecimal fare;
     boolean paid;
+    Rider rider;
 
     public Trip(String id, String holdId, BigDecimal fare) {
         this.id = id;
@@ -21,22 +22,43 @@ public class Trip {
         this.paid = false;
     }
 
+    public Trip(String id, Rider rider, String holdId, BigDecimal fare) {
+        this.id = id;
+        this.startTime = LocalDateTime.now();
+        this.holdId = holdId;
+        this.fare = fare;
+        this.paid = false;
+        this.rider = rider;
+    }
 
-    boolean isActive() {
+
+    public boolean isActive() {
         return (endTime == null);
     }
 
-    void end(LocalDateTime at) {
+    public void end(LocalDateTime at) {
         endTime = at;
     }
 
-    long getDurationMinutes() {
+    public long getDurationMinutes() {
         Duration duration = Duration.between(startTime, endTime);
         return duration.toMinutes();
     }
 
-    void markPaid() {
+    public void markPaid() {
         paid = true;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public BigDecimal getFare() {
+        return this.fare;
+    }
+
+    public Rider getRider() {
+        return this.rider;
     }
 
 }

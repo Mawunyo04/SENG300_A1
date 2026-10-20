@@ -39,30 +39,45 @@ SENG300_A1/
         │   ├── ReceiptSender.java          
         │   ├── ReceiptText.java            
         │   ├── AppReceiptSender.java       
-        │   └── EmailReceiptSender.java 
-        ├── pricing/                  
-        │   ├── CasualPricing.java       
-        │   ├── MemberPricing.java       
-        │   ├── PricingStrategy.java       
-        │   ├── StudenPricing.java       
-        │   ├── TimeBasedPricing.java
-        ├── stations/                  
-        │   ├── DockingPoint.java       
-        │   ├── Station.java       
-        │   ├── StationNetwork.java       
-        │   ├── StationScreen.java       
-        │   ├── Zone.java 
-        ├── (ADD UR PACKAGE STRUCTURES HERE)       
-        ├── trips/                  
-        │   ├── Rider.java       
-        │   ├── Membership.java       
-        │   ├── Trip.java             
-        ├── (ADD UR PACKAGE STRUCTURES HERE)                 
-        ├── 
-        ├── 
-        ├── 
-        └── [Main.java]                
 
+        │   └── EmailReceiptSender.java 
+        ├── faults/
+        │   ├── FaultType.java
+        │   ├── FaultSource.java
+        │   ├── FaultReport.java
+        │   ├── FaultObserver.java
+        │   ├── FaultService.java
+        │   ├── FleetAccess.java
+        │   ├── MaintenanceCrewNotifier.java
+        │   └── OperatorConsole.java
+        ├── pricing/
+        │   ├── CasualPricing.java
+        │   ├── MemberPricing.java
+        │   ├── PricingStrategy.java
+        │   ├── StudentPricing.java
+        │   └── TimeBasedPricing.java
+        ├── stations/
+        │   ├── DockingPoint.java
+        │   ├── Station.java
+        │   ├── StationNetwork.java
+        │   ├── StationScreen.java
+        │   └── Zone.java
+        ├── trips/
+        │   ├── Rider.java
+        │   ├── Membership.java
+        │   └── Trip.java
+        ├── testing/
+        │   ├── PaymentGatewayTest.java
+        │   ├── PricingTest.java
+        │   └── ReceiptSenderTest.java
+        └──(ADD UR PACKAGES HERE)
+
+```
+## Requirements
+- Java 11 or newer (a JDK)
+- IntelliJ IDEA
+
+## Build
 
 --- Build and run ---
 
@@ -95,12 +110,12 @@ OPTION 2: Run from the terminal
 
 
 
-## Git workflow
-Each member works on a feature branch and merges into `main` through a pull request .
 
 Branches: 
 
+    - main
     - feature/payments
+    - feature/faults
     - feat_trips
     - feature/stations
     - feature/payments
