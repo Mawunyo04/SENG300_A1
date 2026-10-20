@@ -65,10 +65,13 @@ SENG300_A1/
         ├── trips/
         │   ├── Rider.java
         │   ├── Membership.java
+        |   ├── TripService.java
+        |   ├── RiderRegistrationService.java
         │   └── Trip.java
         ├── testing/
         │   ├── PaymentGatewayTest.java
         │   ├── PricingTest.java
+        |   ├── TripServiceTest.java
         │   └── ReceiptSenderTest.java
         ├── main/
         │   ├── Main.java
