@@ -44,7 +44,7 @@ public class Main {
     static Scanner scanner =new Scanner(System.in);
     static StationNetwork network=new StationNetwork();
     static Map<String, Vehicle> vehicles=new LinkedHashMap<String, Vehicle>();
-    static Fleet fleet = new Fleet();
+    static Fleet fleet = new Fleet(network, vehicles);
     static FaultService faults = new FaultService(fleet);
     static Rider rider;
     static PricingStrategy pricing;
@@ -427,65 +427,4 @@ public class Main {
         return null;
     }
 
-    /* The fleet operations the fault service and operator menu use */
-    static class Fleet implements FleetAccess {
-
-        @Override
-        public void takeOutOfService(Vehicle vehicle) {
-            vehicle.markOutOfService();
-        }
-
-        @Override
-        public void restoreService(Vehicle vehicle) {
-            vehicle.restoreService();
-        }
-
-        @Override
-        public void relocateVehicle(Vehicle vehicle, String destinationStationId) {
-            Station from =stationOf(vehicle);
-            Station to =findStation(destinationStationId);
-            if (from==null) {
-                throw new IllegalStateException(idOf(vehicle) + " is not docked at a station.");
-            }
-            if (to ==null) {
-                throw new IllegalArgumentException("No station with ID " + destinationStationId + ".");
-            }
-            if (to==from) {
-                throw new IllegalArgumentException(idOf(vehicle) + " is already at station " + to.getId() + ".");
-            }
-            if (to.isFull()) {
-                throw new IllegalStateException("Station " + to.getId() + " is full.");
-            }
-            pointOf(from, vehicle).releaseVehicle();
-            to.findFreePoint().dock(vehicle);
-        }
-
-        @Override
-        public Map<String, String> getVehicleStatuses() {
-            Map<String, String> result =new LinkedHashMap<String, String>();
-            for (Map.Entry<String, Vehicle> e : vehicles.entrySet()) {
-                Station s=stationOf(e.getValue());
-                String where=(s == null) ? "on a ride" : "docked at " + s.getId();
-                String state=e.getValue().isRentable() ? "available" : "not available";
-                result.put(e.getKey(), state + ", " + where);
-            }
-            return result;
-        }
-
-        @Override
-        public Map<String, String>getStationStatuses() {
-            Map<String, String> result =new LinkedHashMap<String, String>();
-            for (Station s : network.getStations()) {
-                int free=0;
-                for (DockingPoint p : s.getPoints()){
-                    if (p.isFree()) {
-                        free++;
-                    }
-                }
-                result.put(s.getId(), s.getZone().getName() + ", " +free + " of "+ s.getPoints().size() + " points free");
-            }
-
-            return result;
-        }
-    }
 }
