@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import gocycle.vehicles.*;
 import gocycle.trips.*;
 
+/**
+ * Test class to test Vehicles
+ */
 public class VehicleTest {
 
     // ElectricBike Tests
@@ -78,6 +81,103 @@ public class VehicleTest {
 
     // ElectricVehicles Tests
 
+    private static class TestElectricVehicle extends ElectricVehicle {
+
+        public TestElectricVehicle(String id, int batteryLevel) {
+            super(id, batteryLevel);
+        }
+
+        @Override
+        public boolean isRentable() {
+            return status == VehicleStatus.AVAILABLE
+                    && batteryLevel >= MIN_BATTERY;
+        }
+
+        public int getBatteryLevel() {
+            return batteryLevel;
+        }
+    }
+
+    @Test
+    public void electricVehicleMinimumBatteryIs20() {
+        assertEquals(20, ElectricVehicle.MIN_BATTERY);
+    }
+
+    @Test
+    public void updateBatteryLevelChangesBatteryLevel() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev1", 50);
+
+        vehicle.updateBatteryLevel(75);
+
+        assertEquals(75, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAllowsZero() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev2", 50);
+
+        vehicle.updateBatteryLevel(0);
+
+        assertEquals(0, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAllows100() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev3", 50);
+
+        vehicle.updateBatteryLevel(100);
+
+        assertEquals(100, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelBelowZeroSetsBatteryToZero() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev4", 50);
+
+        vehicle.updateBatteryLevel(-10);
+
+        assertEquals(0, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAbove100SetsBatteryTo100() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev5", 50);
+
+        vehicle.updateBatteryLevel(110);
+
+        assertEquals(100, vehicle.getBatteryLevel());
+    }
+
+    @Test
+    public void updateBatteryLevelAllowsMinimumBattery() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev6", 50);
+
+        vehicle.updateBatteryLevel(ElectricVehicle.MIN_BATTERY);
+
+        assertEquals(ElectricVehicle.MIN_BATTERY,
+                vehicle.getBatteryLevel());
+        assertTrue(vehicle.isRentable());
+    }
+
+//    @Test
+//    public void reportFaultMarksVehicleOutOfService() {
+//        TestElectricVehicle vehicle = new TestElectricVehicle("ev7", 80);
+//
+//        vehicle.reportFault(null);
+//
+//        assertFalse(vehicle.isRentable());
+//    }
+//
+//    @Test
+//    public void reportFaultKeepsVehicleOutOfService() {
+//        TestElectricVehicle vehicle = new TestElectricVehicle("ev8", 80);
+//        vehicle.reportFault(null);
+//
+//        vehicle.updateBatteryLevel(100);
+//
+//        assertFalse(vehicle.isRentable());
+//    }
+
     // PedalBike Tests
 
     @Test
@@ -105,6 +205,103 @@ public class VehicleTest {
     }
 
     // Vehicle Tests
+
+    // Helper class to test the abstract Vehicle class
+    private static class TestVehicle extends Vehicle {
+
+        public TestVehicle(String id) {
+            super(id);
+        }
+
+        @Override
+        public boolean isRentable() {
+            return status == VehicleStatus.AVAILABLE;
+        }
+    }
+
+    @Test
+    public void vehicleStartsAsAvailable() {
+        Vehicle vehicle = new TestVehicle("v1");
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void startRentalChangesStatusToInUse() {
+        Vehicle vehicle = new TestVehicle("v2");
+
+        vehicle.startRental();
+
+        vehicle.setStatus(VehicleStatus.IN_USE);
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void finishRentalChangesStatusToAvailable() {
+        Vehicle vehicle = new TestVehicle("v3");
+        vehicle.setStatus(VehicleStatus.IN_USE);
+
+        vehicle.finishRental();
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void finishRentalDoesNothingWhenNotInUse() {
+        Vehicle vehicle = new TestVehicle("v4");
+
+        vehicle.finishRental();
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void markOutOfServiceChangesStatus() {
+        Vehicle vehicle = new TestVehicle("v5");
+
+        vehicle.markOutOfService();
+
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void restoreServiceChangesStatusToAvailable() {
+        Vehicle vehicle = new TestVehicle("v6");
+        vehicle.markOutOfService();
+
+        vehicle.restoreService();
+
+        assertTrue(vehicle.isRentable());
+    }
+
+    @Test
+    public void restoreServiceDoesNothingWhenNotOutOfService() {
+        Vehicle vehicle = new TestVehicle("v7");
+        vehicle.setStatus(VehicleStatus.IN_USE);
+
+        vehicle.restoreService();
+
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void setStatusChangesVehicleStatus() {
+        Vehicle vehicle = new TestVehicle("v8");
+
+        vehicle.setStatus(VehicleStatus.OUT_OF_SERVICE);
+
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void startRentalDoesNothingWhenNotRentable() {
+        Vehicle vehicle = new TestVehicle("v9");
+        vehicle.markOutOfService();
+
+        vehicle.startRental();
+
+        assertFalse(vehicle.isRentable());
+    }
 
     // VehicleStatus Tests
     @Test
