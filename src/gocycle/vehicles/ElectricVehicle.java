@@ -1,8 +1,11 @@
 package gocycle.vehicles;
 
+import gocycle.faults.FaultType;
+
 public abstract class ElectricVehicle extends Vehicle {
 
     protected int batteryLevel;
+    protected FaultType fault;
     public static final int MIN_BATTERY = 20;
 
     /**
@@ -35,10 +38,20 @@ public abstract class ElectricVehicle extends Vehicle {
     }
 
     /**
-     * electric vehicle reports if there is a fault and it becomes unrentable
-     * @param type fault type
+     * Reports a fault and marks the vehicle as unrentable.
+     *
+     * @param type the type of fault reported
      */
     public void reportFault(FaultType type) {
+        this.fault = type;
         this.status = VehicleStatus.OUT_OF_SERVICE;
+    }
+
+    public FaultType getFault() {
+        return fault;
+    }
+
+    public boolean hasFault() {
+        return fault != null;
     }
 }
