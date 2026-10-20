@@ -70,45 +70,39 @@ SENG300_A1/
         │   ├── PaymentGatewayTest.java
         │   ├── PricingTest.java
         │   └── ReceiptSenderTest.java
-        └──(ADD UR PACKAGES HERE)
+        ├── main/
+        │   ├── Main.java
+        └──
 
 ```
 ## Requirements
-- Java 11 or newer (a JDK)
-- IntelliJ IDEA
+
+- Java JDK 21 or newer (tested with Temurin 21)
+- A terminal (Terminal on Mac/Linux, PowerShell on Windows)
 
 ## Build
 
---- Build and run ---
+From the project root folder:
 
-                //* Prerequisites *//
-
-* Language Runtime: Java Development Kit (JDK) 17 or higher
-* Editor: Any Java editor or IDE (VS Code with the Extension Pack for Java, IntelliJ IDEA, or Eclipse)
-* The only library is the JUnit jar, which is only needed to run the tests
-* System Tools: Git
-
-                //* Environment Setup*//
-
-Clone the repository then navigate into the project directory:
-```bash
-git clone https://github.com/OWNER/REPO-NAME.git
-cd REPO-NAME
 ```
-                //* Build instructions *//
+mkdir -p out
+javac -d out $(find src -name "*.java")
+```
 
-OPTION 1 : Open the project folder in your Java editor. The editor compiles all of the code in `src` automatically so no build command is needed.
+## Run
 
-OPTION 2:  Compile from the terminal instead (run from the project root, the folder containing `src`)
+```
+java -cp out gocycle.main.Main
+```
 
-
-                //* Run instructions *//
-
-OPTION 1: Open `src/gocycle/main/Main.java` in your editor and click Run.
-
-OPTION 2: Run from the terminal 
+Type a menu number and press Enter. Choose `1` for Rider options or `2` for Operator options, and `0` to go back or exit.
 
 
+## Running in IntelliJ IDEA
+
+1. Open the project folder in IntelliJ.
+2. Open `src/gocycle/main/Main.java`.
+3. Click the green arrow next to `public static void main` and choose Run.
 
 
 Branches: 
