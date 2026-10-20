@@ -1,4 +1,4 @@
-package cle.faults;
+package gocycle.faults;
 
 public enum FaultSource {
     RIDER,
