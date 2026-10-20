@@ -1,6 +1,6 @@
 package gocycle.faults;
 
-import cle.fleet.Vehicle;
+import gocycle.vehicles.Vehicle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
