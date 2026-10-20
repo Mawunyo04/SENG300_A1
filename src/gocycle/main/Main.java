@@ -482,7 +482,7 @@ public class Main {
                         free++;
                     }
                 }
-                result.put(s.getId(), s.getZone().getName() + ", " free + " of "+ s.getPoints().size() + " points free");
+                result.put(s.getId(), s.getZone().getName() + ", " +free + " of "+ s.getPoints().size() + " points free");
             }
 
             return result;
