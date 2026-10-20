@@ -79,10 +79,34 @@ SENG300_A1/
 
 ## Build
 
+--- Build and run ---
+
+                //* Prerequisites *//
+
+* Language Runtime: Java Development Kit (JDK) 17 or higher
+* Editor: Any Java editor or IDE (VS Code with the Extension Pack for Java, IntelliJ IDEA, or Eclipse)
+* The only library is the JUnit jar, which is only needed to run the tests
+* System Tools: Git
+
+                //* Environment Setup*//
+
+Clone the repository then navigate into the project directory:
+```bash
+git clone https://github.com/OWNER/REPO-NAME.git
+cd REPO-NAME
+```
+                //* Build instructions *//
+
+OPTION 1 : Open the project folder in your Java editor. The editor compiles all of the code in `src` automatically so no build command is needed.
+
+OPTION 2:  Compile from the terminal instead (run from the project root, the folder containing `src`)
 
 
+                //* Run instructions *//
 
-## Run
+OPTION 1: Open `src/gocycle/main/Main.java` in your editor and click Run.
+
+OPTION 2: Run from the terminal 
 
 
 
@@ -93,8 +117,7 @@ Branches:
     - feature/payments
     - feature/faults
     - feat_trips
-    - chylsy-work
     - feature/stations
-    - fix/gitignore-indentation
+    - feature/payments
+    - chylsy-work
     - sara's-work
-    - (ADD UR BRANCHES HERE)
