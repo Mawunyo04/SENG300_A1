@@ -9,7 +9,7 @@ import gocycle.trips.*;
 import gocycle.vehicles.*;
 import gocycle.stations.*;
 
-public class Main {
+public class  Main {
     
     /* Class fields */
     public static int USER_OPTION;

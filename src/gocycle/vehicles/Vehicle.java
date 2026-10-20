@@ -73,4 +73,20 @@ public abstract class Vehicle {
     public void setStatus(VehicleStatus status) {
         this.status = status;
     }
+
+    /**
+     * get vehicle status
+     * @return ID
+     */
+    public VehicleStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * get vehicle ID
+     * @return ID
+     */
+    public String getId() {
+        return id;
+    }
 }

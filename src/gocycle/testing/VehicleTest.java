@@ -159,26 +159,26 @@ public class VehicleTest {
         assertTrue(vehicle.isRentable());
     }
 
-//    @Test
-//    public void reportFaultMarksVehicleOutOfService() {
-//        TestElectricVehicle vehicle = new TestElectricVehicle("ev7", 80);
-//
-//        vehicle.reportFault(null);
-//
-//        assertFalse(vehicle.isRentable());
-//    }
-//
-//    @Test
-//    public void reportFaultKeepsVehicleOutOfService() {
-//        TestElectricVehicle vehicle = new TestElectricVehicle("ev8", 80);
-//        vehicle.reportFault(null);
-//
-//        vehicle.updateBatteryLevel(100);
-//
-//        assertFalse(vehicle.isRentable());
-//    }
+    @Test
+    public void reportFaultMarksVehicleOutOfService() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev7", 80);
 
-    // PedalBike Tests
+        vehicle.reportFault(null);
+
+        assertFalse(vehicle.isRentable());
+    }
+
+    @Test
+    public void reportFaultKeepsVehicleOutOfService() {
+        TestElectricVehicle vehicle = new TestElectricVehicle("ev8", 80);
+        vehicle.reportFault(null);
+
+        vehicle.updateBatteryLevel(100);
+
+        assertFalse(vehicle.isRentable());
+    }
+
+     PedalBike Tests
 
     @Test
     public void bikeIsAvailable() {

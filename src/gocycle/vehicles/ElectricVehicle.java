@@ -38,7 +38,7 @@ public abstract class ElectricVehicle extends Vehicle {
      * electric vehicle reports if there is a fault and it becomes unrentable
      * @param type fault type
      */
-//    public void reportFault(FaultType type) {
-//        this.status = VehicleStatus.OUT_OF_SERVICE;
-//    }
+    public void reportFault(FaultType type) {
+        this.status = VehicleStatus.OUT_OF_SERVICE;
+    }
 }
